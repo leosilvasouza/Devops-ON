@@ -18,7 +18,8 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<sonar.organization>container-technologies-and-devsecops</sonar.organization>
+		<sonar.organization>leosilvasouza</sonar.organization>
+		<sonar.project>container-technologies-and-devsecops</sonar.project>
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
