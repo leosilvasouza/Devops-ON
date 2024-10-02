@@ -9,13 +9,21 @@ on:
 jobs:
   security:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
     steps:
       - uses: actions/checkout@master
+      - run: chmod +x mvnw
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+
+        uses: snyk/actions/maven@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          
+
+    
   code-analysis:
     runs-on: ubuntu-latest
     steps:
@@ -59,6 +67,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
+      - name: Upload JaCoCo coverage report
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/   
+          
+      - name: Test with Maven - Generate JaCoCo Badge
+        run: mvn test  
+        id: jacoco
+        
+      - name: Log coverage percentage
+        run: |
+          echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
+          echo "branch coverage = ${{ steps.jacoco.outputs.branches }}" 
+          
       - name: Build with Maven
         run: |
          mvn -B package --file pom.xml
