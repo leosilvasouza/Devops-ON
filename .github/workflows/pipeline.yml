@@ -59,7 +59,9 @@ jobs:
 
   build-image:
     runs-on: ubuntu-latest
-    needs: code-analysis
+    needs: 
+      - code-analysis
+      - security
     defaults:
       run:
         working-directory: app
@@ -67,15 +69,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
+      - name: Test with Maven - Generate JaCoCo Badge
+        run: mvn test  
+        id: jacoco
+        
       - name: Upload JaCoCo coverage report
         uses: actions/upload-artifact@v4.4.0
         with:
           name: jacoco-report
           path: target/site/jacoco/   
-          
-      - name: Test with Maven - Generate JaCoCo Badge
-        run: mvn test  
-        id: jacoco
         
       - name: Log coverage percentage
         run: |
@@ -84,7 +86,7 @@ jobs:
           
       - name: Build with Maven
         run: |
-         mvn -B package --file pom.xml
+         mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=leosilvasouza package --file pom.xml
 
       - name: Publish to GitHub Packages Apache Maven
         run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
