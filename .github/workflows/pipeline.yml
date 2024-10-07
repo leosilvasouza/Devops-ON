@@ -27,6 +27,9 @@ jobs:
   code-analysis:
     name: Build and analyze with SonarCloud
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
     steps:
       - uses: actions/checkout@v4
         with:
