@@ -82,6 +82,7 @@ jobs:
     needs: 
       - code-analysis
       - security
+      - test-image
     steps:         
       - name: Build with Maven
         run: |
