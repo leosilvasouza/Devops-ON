@@ -25,7 +25,7 @@ jobs:
 
     
   code-analysis:
-    name: Build and analyze with SonarCloud
+    name: Analyze with SonarCloud
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -63,7 +63,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Test with Maven - Generate JaCoCo Badge
+      - name: Test with Maven
         run: mvn test  
         
       - name: Upload JaCoCo coverage report
@@ -83,12 +83,7 @@ jobs:
       - code-analysis
       - security
       - test-image
-    steps:         
-      - name: Build with Maven
-        run: |
-         sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/zulu-17/bin/java 1
-         mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=leosilvasouza_container-technologies-and-devsecops
-
+    steps:
       - name: Publish to GitHub Packages Apache Maven
         run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
         env:
