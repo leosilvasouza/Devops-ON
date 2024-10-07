@@ -54,7 +54,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=leosilvasouza_container-technologies-and-devsecops
 
-  build-image:
+  test-image:
     runs-on: ubuntu-latest
     needs: 
       - code-analysis
@@ -77,8 +77,15 @@ jobs:
           echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
           echo "branch coverage = ${{ steps.jacoco.outputs.branches }}" 
           
+  build-image:
+    runs-on: ubuntu-latest
+    needs: 
+      - code-analysis
+      - security
+    steps:         
       - name: Build with Maven
         run: |
+         sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/zulu-17/bin/java 1
          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=leosilvasouza_container-technologies-and-devsecops
 
       - name: Publish to GitHub Packages Apache Maven
