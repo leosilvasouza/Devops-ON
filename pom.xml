@@ -34,7 +34,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -62,11 +61,12 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
 	<distributionManagement>
 		<repository>
 			<id>github</id>
 			<name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/Faculdade-Impacta-Devops/Devops-ON</url>
+			<url>https://maven.pkg.github.com/leosilvasouza/Devops-ON</url>
 		</repository>
 	</distributionManagement>
 	<build>
@@ -96,5 +96,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
